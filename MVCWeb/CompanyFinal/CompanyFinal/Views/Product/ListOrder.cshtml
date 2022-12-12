@@ -1,0 +1,87 @@
+﻿@model IEnumerable<CompanyFinal.Models.Order>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Danh Sách Đã Order</h1>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ProductId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ProductName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Status)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.paymethod)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DateReceived)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DateDelivery)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PriceDelivery)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PriceReceived)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Profit)
+            </th>
+            <th>
+                Người Order
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Amount)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProductId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProductName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Status)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.paymethod)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DateReceived)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DateDelivery)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PriceDelivery)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PriceReceived)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Profit)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.User.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Amount)
+            </td>
+          
+        </tr>
+}
+    </tbody>
+</table>

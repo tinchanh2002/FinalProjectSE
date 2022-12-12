@@ -1,0 +1,78 @@
+﻿@model List<CompanyFinal.Models.Product>
+
+<div class="row">
+    @foreach (var item in Model)
+    {
+        <div class="col-sm-3">
+            <div class="card">
+                    <img class="card-img-top" src="https://baokhanhhoa.vn/dataimages/201403//original/images938806_IMG_1566.jpg" alt="Card image cap">
+                <div class="card-body">
+                    <label>@item.ProductName</label>
+                    <p class="card-text">
+                        <input class="form-control" type="number" onchange="changePrice(this)" id="amount_@item.ProductId" value="1" placeholder="Nhap so luong can mua">
+                        <select class="form-control" name="paymethod" id="paymethod_@item.ProductId">
+                            <option value="COD">Thanh toan khi nhan hang</option>
+                            <option value="ATM">Thanh toan qua ATM</option>
+                            <option value="MOMO">Thanh toan qua MOMO</option>
+                        </select>
+                    </p>
+                    <label id="price_@item.ProductId" class="btn btn-danger btn-sm">@String.Format(System.Globalization.CultureInfo.GetCultureInfo("vi-VN"), "{0:c}", item.PriceDelivery)</label>
+                    <a href="#" onclick="buyProduct('@item.ProductId')" class="btn btn-primary btn-sm">Mua Ngay</a>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+@section Scripts{
+    <script>    
+        // bind value if amount is changed
+        function changePrice(obj) {
+            var amount = obj.value;
+            var id = obj.id;
+            var id = id.replace("amount_", "");
+            var price = document.getElementById("price_" + id).innerHTML;
+            //regex to remove the đ and , from the price
+            price = price.replace(/[đ,]/g, '');
+            price = price.replace(/[.]/g, '');
+            price = price.replace(/[,]/g, '');
+            // convert price to number
+            price = parseInt(price);
+            // calculate total price
+            var totalPrice = price * amount;
+            // convert total price to string
+            totalPrice = totalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            // show total price
+            document.getElementById("price_" + id).innerHTML = totalPrice + " đ";
+        
+        }
+       
+
+        // buy product
+       async function buyProduct(productId) {
+            var amount = $('#amount_'+productId).val();
+            var paymethod = $('#paymethod_'+productId).val();
+            // ajax
+           await $.ajax({
+                url: '/Home/Order',
+                type: 'POST',
+                data: {
+                    productId: productId,
+                    amount: amount,
+                    paymethod: paymethod
+                },
+                success: function (data) {
+                    console.log(data);
+                    if (data.statusCode == 200) {
+                        alert(data.message);
+                        location.reload();
+                    }
+                    else {
+                        alert(data.message);
+                    }
+                }
+            });
+        }
+
+    </script>
+}
+
